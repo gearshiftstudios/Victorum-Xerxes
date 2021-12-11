@@ -136,12 +136,12 @@ class ChunkMap {
                 preset: 0,
             },
             elev: {
-                max: 13,
+                max: 6,
                 water: 0.1,
             },
             size: {
-                width: 200,
-                height: 200,
+                width: 50,
+                height: 50,
             },
             chunk: {
                 amount: [ 0, 0 ],
