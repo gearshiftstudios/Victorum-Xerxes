@@ -444,9 +444,9 @@ class ChunkMap {
                 .then( () => this.loadTrees( this.trees ) )
                 .then( () => this.generateChunkTiles() )
                 .then( () => this.separateChunkTilesByBiome() )
-                .then( () => this.generateChunkTreeInstances() )
+                // .then( () => this.generateChunkTreeInstances() )
                 .then( () => this.generateWater( camera ) )
-                .then( () => this.generateRandomBuildings() )
+                // .then( () => this.generateRandomBuildings() )
                 .then( () => resolve() )
         } )
     }
