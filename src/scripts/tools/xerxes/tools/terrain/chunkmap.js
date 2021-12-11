@@ -2,7 +2,7 @@ import * as XBase from '../../base/base.js'
 
 import { GLTFLoader } from '../../modules/loaders/gltf.js'
 
-import { Entity } from '../entity/entity.js'
+import { Entity, EntityStore } from '../entity/entity.js'
 import { noise } from '../../libs/perlin.js'
 import { calcMaxHeight, calcMinHeight, Face, Vertex } from './geometry.js'
 import { getRandom } from '../array.js'
@@ -1651,6 +1651,10 @@ class ChunkMap {
 
     generateRandomBuildings () {
         return new Promise( ( resolve, reject ) => {
+            this.storage = {
+                entity: new Array()
+            }
+
             this.group.allTiles.forEach( t => {
                 if ( !t.hasTree && !t.isCrust && !t.isCoast ) {
                     if ( ( Math.random() > 0.97 ) == true ) {
@@ -1663,10 +1667,14 @@ class ChunkMap {
                                 t.maxHeight,
                                 t.center[ 1 ]
                             )
+
+                            this.storage.entity.push( entity )
                         } )
                     }
                 }
             } )
+
+            console.log( this.storage.entity )
 
             resolve()
         } )

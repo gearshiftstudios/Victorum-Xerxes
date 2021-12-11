@@ -48,6 +48,12 @@ class App {
                 if ( this.terrain.water ) {
                     this.terrain.water.material.userData.shader.uniforms.uTime.value = this.clock.getElapsedTime()
                 }
+
+                if ( this.terrain.storage && this.terrain.storage.entity.length > 0 ) {
+                    for ( let i = 0; i < this.terrain.storage.entity.length; i++ ) {
+                        this.terrain.storage.entity[ i ].animation.mixer.update( delta )
+                    }
+                }
             }
 
             if ( this.camera && this.controls ) {

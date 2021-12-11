@@ -1,6 +1,8 @@
 import * as XBase from '../../base/base.js'
 import { AnimationList } from './animations.js'
 
+const EntityStore = new Array()
+
 class Entity {
     constructor ( model, parent, initAnim ) {
         this.los = 0.25
@@ -109,4 +111,4 @@ class Entity {
     }
 }
 
-export { Entity } 
+export { Entity, EntityStore } 
