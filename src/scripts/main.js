@@ -16,9 +16,9 @@ class App {
 
             if ( this.controls ) this.controls.update()
             
-            if ( this.mill ) {
-                this.mill.animation.mixer.update( delta )
-            }
+            // if ( this.mill ) {
+            //     this.mill.animation.mixer.update( delta )
+            // }
 
             if ( 
                 this.renderer && 
@@ -36,7 +36,7 @@ class App {
                 this.renderer.setRenderTarget( this.postprocessing.bokeh.rtTextureDepth )
                 this.renderer.clear()
                 this.renderer.render( this.scene, this.camera )
-                this.renderer.display.update( this.renderer )
+                // this.renderer.display.update( this.renderer )
                 this.scene.overrideMaterial = null
 
 				// render bokeh composite
@@ -50,21 +50,21 @@ class App {
                 }
             }
 
-            if ( this.camera && this.controls ) {
-                const distance = this.camera.position.distanceTo( this.controls.target )
+            // if ( this.camera && this.controls ) {
+            //     const distance = this.camera.position.distanceTo( this.controls.target )
 
-                if ( distance < this.controls.maxDistance + 1 ) {
-                    const angle = 90 - ( distance * 2 )
+            //     if ( distance < this.controls.maxDistance + 1 ) {
+            //         const angle = 90 - ( distance * 2 )
 
-                    if ( angle < 85 ) {
-                        this.controls.maxPolarAngle = Xerxes.util.math.degToRad( angle )
-                        this.controls.minPolarAngle = Xerxes.util.math.degToRad( angle )
-                    }
-                } else {
-                    this.controls.maxPolarAngle = Xerxes.util.math.degToRad( 60 )
-                    this.controls.minPolarAngle = Xerxes.util.math.degToRad( 60 )
-                }
-            }
+            //         if ( angle < 85 ) {
+            //             this.controls.maxPolarAngle = Xerxes.util.math.degToRad( angle )
+            //             this.controls.minPolarAngle = Xerxes.util.math.degToRad( angle )
+            //         }
+            //     } else {
+            //         this.controls.maxPolarAngle = Xerxes.util.math.degToRad( 60 )
+            //         this.controls.minPolarAngle = Xerxes.util.math.degToRad( 60 )
+            //     }
+            // }
         }
 
         /* initialize app */ 
