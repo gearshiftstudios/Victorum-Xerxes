@@ -136,12 +136,12 @@ class ChunkMap {
                 preset: 0,
             },
             elev: {
-                max: 6,
+                max: 13,
                 water: 0.1,
             },
             size: {
-                width: 50,
-                height: 50,
+                width: 200,
+                height: 200,
             },
             chunk: {
                 amount: [ 0, 0 ],
@@ -444,7 +444,7 @@ class ChunkMap {
                 .then( () => this.loadTrees( this.trees ) )
                 .then( () => this.generateChunkTiles() )
                 .then( () => this.separateChunkTilesByBiome() )
-                // .then( () => this.generateChunkTreeInstances() )
+                .then( () => this.generateChunkTreeInstances() )
                 .then( () => this.generateWater( camera ) )
                 // .then( () => this.generateRandomBuildings() )
                 .then( () => resolve() )
