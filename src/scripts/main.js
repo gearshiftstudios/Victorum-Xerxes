@@ -14,7 +14,7 @@ class App {
 
             const delta = this.clock.getDelta()
 
-            if ( this.controls ) this.controls.update()
+            // if ( this.controls ) this.controls.update()
             
             // if ( this.mill ) {
             //     this.mill.animation.mixer.update( delta )
@@ -27,28 +27,28 @@ class App {
                 this.composer
             ) {
 				// render scene into texture
-                this.renderer.setRenderTarget( this.postprocessing.bokeh.rtTextureColor )
-                this.renderer.clear()
+                // this.renderer.setRenderTarget( this.postprocessing.bokeh.rtTextureColor )
+                // this.renderer.clear()
                 this.renderer.render( this.scene, this.camera )
 
-				// render depth into texture
-                this.scene.overrideMaterial = this.postprocessing.bokeh.waterMatDepth
-                this.renderer.setRenderTarget( this.postprocessing.bokeh.rtTextureDepth )
-                this.renderer.clear()
-                this.renderer.render( this.scene, this.camera )
-                // this.renderer.display.update( this.renderer )
-                this.scene.overrideMaterial = null
+				// // render depth into texture
+                // this.scene.overrideMaterial = this.postprocessing.bokeh.waterMatDepth
+                // this.renderer.setRenderTarget( this.postprocessing.bokeh.rtTextureDepth )
+                // this.renderer.clear()
+                // this.renderer.render( this.scene, this.camera )
+                // // this.renderer.display.update( this.renderer )
+                // this.scene.overrideMaterial = null
 
-				// render bokeh composite
-                this.renderer.setRenderTarget( null )
-				this.composer.render()
+				// // render bokeh composite
+                // this.renderer.setRenderTarget( null )
+				// this.composer.render()
             }
 
-            if ( this.terrain ) {
-                if ( this.terrain.water ) {
-                    this.terrain.water.material.userData.shader.uniforms.uTime.value = this.clock.getElapsedTime()
-                }
-            }
+            // if ( this.terrain ) {
+            //     if ( this.terrain.water ) {
+            //         // this.terrain.water.material.userData.shader.uniforms.uTime.value = this.clock.getElapsedTime()
+            //     }
+            // }
 
             // if ( this.camera && this.controls ) {
             //     const distance = this.camera.position.distanceTo( this.controls.target )
@@ -124,7 +124,7 @@ class App {
 
         this.controls = new Xerxes.controls.map( this.camera, this.renderer.domElement )
         this.controls.screenSpacePanning = false
-        this.controls.enableDamping = true
+        this.controls.enableDamping = false
         this.controls.maxDistance = 39
 
         /* terrain */ 
