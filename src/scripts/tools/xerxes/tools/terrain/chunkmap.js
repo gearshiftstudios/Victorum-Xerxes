@@ -446,7 +446,7 @@ class ChunkMap {
                 .then( () => this.separateChunkTilesByBiome() )
                 .then( () => this.generateChunkTreeInstances() )
                 .then( () => this.generateWater( camera ) )
-                // .then( () => this.generateRandomBuildings() )
+                .then( () => this.generateRandomBuildings() )
                 .then( () => resolve() )
         } )
     }
@@ -1656,13 +1656,13 @@ class ChunkMap {
                     if ( ( Math.random() > 0.99 ) == true ) {
                         const Loader = new GLTFLoader()
                         Loader.load( './public/assets/models/buildings/mill.gltf', model => {
-                            // const entity = new Entity( model, this.group, 'spin' )
+                            const entity = new Entity( model, this.group, 'spin' )
 
-                            // entity.model.scene.position.set(
-                            //     t.center[ 0 ] + 0.25,
-                            //     t.maxHeight,
-                            //     t.center[ 1 ]
-                            // )
+                            entity.model.scene.position.set(
+                                t.center[ 0 ] + 0.25,
+                                t.maxHeight,
+                                t.center[ 1 ]
+                            )
                         } )
                     }
                 }
