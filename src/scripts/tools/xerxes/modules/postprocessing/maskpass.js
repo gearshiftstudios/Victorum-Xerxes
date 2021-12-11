@@ -1,4 +1,4 @@
-import { Pass } from '../postprocessing/pass.js';
+import { Pass } from './pass.js';
 
 class MaskPass extends Pass {
 
