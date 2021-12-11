@@ -1653,7 +1653,7 @@ class ChunkMap {
         return new Promise( ( resolve, reject ) => {
             this.group.allTiles.forEach( t => {
                 if ( !t.hasTree && !t.isCrust && !t.isCoast ) {
-                    if ( ( Math.random() > 0.99 ) == true ) {
+                    if ( ( Math.random() > 0.97 ) == true ) {
                         const Loader = new GLTFLoader()
                         Loader.load( './public/assets/models/buildings/mill.gltf', model => {
                             const entity = new Entity( model, this.group, 'spin' )
