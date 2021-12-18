@@ -34,10 +34,8 @@ float getLinearDepth(vec3 pos) {
 void main() {
     vec2 uv = gl_FragCoord.xy;
 
-    // if ( uDistance < ( uDistanceMax + 60.0 ) * uScale ) {
-    //     float wave = sin(vUv.x * 50. + uTime * 1.) / 2. + 0.3;
-    //     uv -= (viewMatrix * vec4(0.0, 0.0, wave  * 10., 0.0)).xy;
-    // }
+    float wave = sin(vUv.x * 50. + uTime * 1.) / 2. + 0.3;
+    uv -= (viewMatrix * vec4(0.0, 0.0, wave  * 10., 0.0)).xy;
 
     vec4 color = texture2D(tEnv, uv / screenSize);
     
@@ -51,10 +49,8 @@ void main() {
     vec4 waterColor = vec4(0.2, max(0.9 - diff / 25., 0.6), 1.0, 1.0);
     color = mix(color, waterColor, vec4( 0.8 + diff / 200. ));
 
-    if ( uDistance < ( uDistanceMax + 30.0 ) * uScale ) {
-        if ( originalDiff < 0.125 * uScale ) color = vec4(1);
-        else if (originalDiff < 0.25 * uScale ) color = vec4(0.7, 0.95, 1.0, 0.75);
-    }
+    if ( originalDiff < 0.125 ) color = vec4(1);
+    else if (originalDiff < 0.25 ) color = vec4(0.7, 0.95, 1.0, 0.75);
 
     if ( originalDiff < -5.0 ) color = vec4( 0.45, 0.78, 0.76, 1.0 );
 

@@ -1,0 +1,57 @@
+ui {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url(../../public/assets/images/ui.svg);
+  background-size: 100% 100%;
+  -ms-interpolation-mode: nearest-neighbor;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -o-pixelated;
+      image-rendering: pixelated;
+  pointer-events: none;
+}
+
+ui#dev {
+  -webkit-animation: ui-dev-slide-in 0.15s forwards;
+          animation: ui-dev-slide-in 0.15s forwards;
+}
+
+@-webkit-keyframes ui-dev-slide-in {
+  from {
+    margin-left: -500px;
+  }
+  to {
+    margin-left: 0px;
+  }
+}
+
+@keyframes ui-dev-slide-in {
+  from {
+    margin-left: -500px;
+  }
+  to {
+    margin-left: 0px;
+  }
+}
+
+@-webkit-keyframes ui-dev-slide-out {
+  from {
+    margin-left: 0px;
+  }
+  to {
+    margin-left: -500px;
+  }
+}
+
+@keyframes ui-dev-slide-out {
+  from {
+    margin-left: 0px;
+  }
+  to {
+    margin-left: -500px;
+  }
+}
+/*# sourceMappingURL=ui.min.css.map */

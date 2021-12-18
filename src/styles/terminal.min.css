@@ -8,9 +8,9 @@ terminal {
   border-bottom: none;
   border-left: none;
   border-radius: 0 10px 0 0;
-  -webkit-box-shadow: 0 0 10px black, inset 0 0 10px black;
-          box-shadow: 0 0 10px black, inset 0 0 10px black;
   color: white;
+  display: none;
+  pointer-events: auto;
 }
 
 terminal dialogue {
@@ -20,8 +20,6 @@ terminal dialogue {
   margin: 10px;
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 5px;
-  -webkit-box-shadow: 0 0 10px black, inset 0 0 10px black;
-          box-shadow: 0 0 10px black, inset 0 0 10px black;
   font-family: 'Helvetica';
   font-size: 12px;
   padding: 10px 10px 10px 10px;
@@ -38,8 +36,6 @@ terminal input {
   background-color: rgba(0, 0, 0, 0.5);
   border: none;
   border-radius: 5px;
-  -webkit-box-shadow: 0 0 10px black, inset 0 0 10px black;
-          box-shadow: 0 0 10px black, inset 0 0 10px black;
   color: white;
 }
 /*# sourceMappingURL=terminal.min.css.map */

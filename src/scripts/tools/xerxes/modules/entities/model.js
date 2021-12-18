@@ -1,10 +1,12 @@
 import * as XBase from '../../base/base.js'
-import { AnimationList } from './animations.js'
+import { AnimationList } from '../../tools/entity/animations.js'
 
-const EntityStore = new Array()
+const ModelStore = new Array()
 
-class Entity {
+class Model extends XBase.construct {
     constructor ( model, parent, initAnim ) {
+        super()
+
         this.los = 0.25
         this.model = model
         this.viewingWireframe = false
@@ -111,4 +113,4 @@ class Entity {
     }
 }
 
-export { Entity, EntityStore } 
+export { Model, ModelStore } 

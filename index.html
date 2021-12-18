@@ -3,6 +3,7 @@
 <html>
     <head>
         <link href="src/styles/terminal.min.css" rel="stylesheet">
+        <link href="src/styles/ui.min.css" rel="stylesheet">
 
         <style>
             body {
@@ -55,12 +56,14 @@
         <debug></debug>
         <edge-blur></edge-blur>
 
-        <terminal id='terminal'>
-            <dialogue></dialogue>
-            <form>
-                <input>
-            </form>
-        </terminal>
+        <ui id='dev'>
+            <terminal id='terminal'>
+                <dialogue></dialogue>
+                <form>
+                    <input>
+                </form>
+            </terminal>
+        </ui>
 
         <script src='src/scripts/main.js' type='module'></script>
     </body>

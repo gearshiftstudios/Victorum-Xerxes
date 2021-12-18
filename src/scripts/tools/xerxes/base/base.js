@@ -1,6 +1,26 @@
 import * as XCore from './core.js'
 import * as XLog from './log.js'
 
+class Construct {
+    constructor () {
+        this.params = {}
+    }
+
+    addParam ( name, value ) {
+        return new Promise( ( resolve, reject ) => {
+            try {
+                if ( name && value ) {
+                    this.params[ name ] = value
+
+                    resolve( value )
+                } else reject()
+            } catch {
+                reject()
+            }
+        } )
+    }
+}
+
 /**
  * @license
  * Copyright 2010-2021 Three.js Authors
@@ -723,7 +743,7 @@ const storage = {
   * https://github.com/mrdoob/eventdispatcher.js/
   */
  
- class EventDispatcher {
+ class EventDispatcher extends Construct {
  
      addEventListener( type, listener ) {
  
@@ -39763,8 +39783,25 @@ class Scene extends Object3D {
  
          this.color = new Color( color );
          this.intensity = intensity;
+
+         this.target = new Object3D()
  
      }
+
+     addTo ( object3D ) {
+        return new Promise( ( resolve, reject ) => {
+            try {
+                if ( object3D && object3D.isObject3D ) {
+                    object3D.add( this )
+                    object3D.add( this.target )
+
+                    resolve( object3D )
+                } else reject()
+            } catch {
+                reject()
+            }
+        } )
+    }
  
      dispose() {
  
@@ -40249,8 +40286,6 @@ class Scene extends Object3D {
  
          this.position.copy( Object3D.DefaultUp );
          this.updateMatrix();
- 
-         this.target = new Object3D();
  
          this.shadow = new DirectionalLightShadow();
  
@@ -50683,6 +50718,8 @@ const tools = {}
 export { 
     XCore as core,
     XLog as log,
+
+    Construct as construct,
 
 	create,
 	modify,

@@ -23,7 +23,7 @@ class Bokeh {
 
 		this.scene.add( this.camera )
 
-        const shaderSettings = {
+        this.settings = {
             rings: 3,
             samples: 7
         }
@@ -46,8 +46,8 @@ class Bokeh {
 			vertexShader: bokeh_shader.vertexShader,
 			fragmentShader: bokeh_shader.fragmentShader,
 			defines: {
-				RINGS: shaderSettings.rings,
-				SAMPLES: shaderSettings.samples
+				RINGS: this.settings.rings,
+				SAMPLES: this.settings.samples
 			}
 		} )
 
@@ -74,18 +74,19 @@ class Bokeh {
 
         this.bokeh_uniforms[ 'tColor' ].value = this.rtTextureColor.texture
 		this.bokeh_uniforms[ 'tDepth' ].value = this.rtTextureDepth.texture
-        this.bokeh_uniforms[ 'textureWidth' ].value = window.innerWidth * window.devicePixelRatio
-	    this.bokeh_uniforms[ 'textureHeight' ].value = window.innerHeight * window.devicePixelRatio
+        this.bokeh_uniforms[ 'textureWidth' ].value = window.innerWidth
+	    this.bokeh_uniforms[ 'textureHeight' ].value = window.innerHeight
 
         this.scene.remove( this.quad )
 
         this.quad = new XBase.mesh.default( new XBase.geometry.buffer.plane(
-            window.innerWidth * window.devicePixelRatio, 
-            window.innerHeight * window.devicePixelRatio
+            window.innerWidth, window.innerHeight
         ), this.materialBokeh )
 
 		this.quad.position.z = - 500
 		this.scene.add( this.quad )
+
+        this.shaderUpdate()
     }
 
     saturate ( x ) {
@@ -93,9 +94,9 @@ class Bokeh {
     }
 
     shaderUpdate () {
-        this.postprocessing.materialBokeh.defines.RINGS = shaderSettings.rings
-        this.postprocessing.materialBokeh.defines.SAMPLES = shaderSettings.samples
-        this.postprocessing.materialBokeh.needsUpdate = true
+        this.materialBokeh.defines.RINGS = this.settings.rings
+        this.materialBokeh.defines.SAMPLES = this.settings.samples
+        this.materialBokeh.needsUpdate = true
     }
 
     smoothstep ( near, far, depth ) {

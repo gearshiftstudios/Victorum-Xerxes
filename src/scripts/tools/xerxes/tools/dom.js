@@ -1,4 +1,4 @@
-import Rejections from '../base/rejections.js'
+import * as XLog from '../base/log.js'
 
 function stylizeBody () {
     return new Promise( ( resolve, reject ) => {
@@ -17,6 +17,27 @@ function stylizeBody () {
     } )
 }
 
+/**
+ * 
+ * @param { Element } element 
+ * @param { string } filter 
+ * @param { * } value 
+ * @returns 
+ */
+
+function setFilter ( element, filter, value ) {
+    return new Promise( resolve => {
+        if ( element ) {
+            if ( filter && value ) {
+                element.style.filter = `${ filter }( ${ value } )`
+
+                resolve()
+            } else XLog.resolve( resolve ).error( 'You must pass a filter and value' )
+        } else XLog.resolve( resolve ).error( `You must pass an element. If you did then this element doesn't exist within the DOM at the time this was called.` )
+    } )
+}
+
 export {
+    setFilter,
     stylizeBody,
 }

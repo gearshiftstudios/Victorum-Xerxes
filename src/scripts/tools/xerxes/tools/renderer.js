@@ -2,7 +2,12 @@ import * as XBase from '../base/base.js'
 import Rejections from '../base/rejections.js'
 
 class RendererDataDisplay {
-    constructor ( type = 'webgl' ) {
+    constructor ( parentElement = document.body, type = 'webgl' ) {
+        this.params = {
+            parentElement: parentElement,
+            type: type,
+        }
+
         this.container = document.createElement( 'div' )
         this.container.innerHTML = `Renderer Data Display`
 
@@ -11,13 +16,13 @@ class RendererDataDisplay {
             left: 0;
             top: 0;
 
-            margin: 10px;
-
             background-color: #313131;
             border: solid 2px #6c6c6c;
-            box-shadow: 0 0 10px black, inset 0 0 10px black;
-            border-radius: 10px;
+            border-left: none;
+            border-top: none;
+            border-radius: 0 0 10px 0;
             color: white;
+            display: none;
             font-family: 'Montserrat';
             font-size: 12px;
             padding: 5px 10px 5px 10px;
@@ -25,10 +30,8 @@ class RendererDataDisplay {
             z-index: 9999999;
         ` )
 
-        this.type = type
-
         this.container.innerHTML = `
-            <img src='public/assets/images/logos/${ type == 'webgl' ? 'webgl.white' : 'css3' }.svg' height='40' style='margin-top: 5px;'></img><br><br>
+            <img src='public/assets/images/logos/${ this.params.type == 'webgl' ? 'webgl.white' : 'css3' }.svg' height='40' style='margin-top: 5px;'></img><br><br>
 
             <div style='color: magenta; display: inline;'>Geometries</div> - <div id='m-g' style='display: inline;'>0</div><br>
             <div style='color: magenta; display: inline;'>Textures</div> - <div id='m-t' style='display: inline;'>0</div><br>
@@ -38,7 +41,7 @@ class RendererDataDisplay {
             <div style='color: turquoise; display: inline;'>Lines</div> - <div id='r-l' style='display: inline;'>0</div>
         `
 
-        document.body.appendChild( this.container )
+        this.params.parentElement.appendChild( this.container )
     }
 
     update ( renderer ) {
@@ -125,10 +128,10 @@ function createDepthTarget ( renderer, options = {} ) {
     } )
 }
 
-function createRendererDataDisplay () {
+function createRendererDataDisplay ( parentElement = document.body, type = 'webgl' ) {
     return new Promise( ( resolve, reject ) => {
         try {
-            const display = new RendererDataDisplay()
+            const display = new RendererDataDisplay( parentElement, type )
 
             XBase.log.write( 'Renderer Data Display (XRDD) was created for use.' )
     

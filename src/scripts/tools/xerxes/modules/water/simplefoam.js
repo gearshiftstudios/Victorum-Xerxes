@@ -36,9 +36,11 @@ class Water_SimpleFoam {
         )
 
         this.mesh.rotation.x = XBase.util.math.degToRad( -90 )
-        this.mesh.position.y = 0
+        this.mesh.position.y = 10
 
-        this.init( object3D, renderer )
+        this.scene = new XBase.scene()
+
+        this.init( renderer )
     }
 
     resize ( renderer ) {
@@ -57,16 +59,14 @@ class Water_SimpleFoam {
         }
     }
 
-    async init ( object3D, renderer ) {
-        if ( object3D && object3D.isObject3D ) {
-            if ( renderer && renderer.isWebGLRenderer ) {
-                this.targets = {
-                    color: await RendererTools.createColorTarget( renderer ),
-                    depth: await RendererTools.createDepthTarget( renderer ),
-                }
-
-                object3D.add( this.mesh )
+    async init ( renderer ) {
+        if ( renderer && renderer.isWebGLRenderer ) {
+            this.targets = {
+                color: await RendererTools.createColorTarget( renderer ),
+                depth: await RendererTools.createDepthTarget( renderer ),
             }
+
+            this.scene.add( this.mesh )
         }
     }
 }

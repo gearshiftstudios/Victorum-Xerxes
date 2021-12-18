@@ -1,5 +1,6 @@
 import * as XBase from './base/base.js'
 import * as CameraTools from './tools/camera.js'
+import * as ControlTools from './tools/controls.js'
 import * as DOMTools from './tools/dom.js'
 import * as LightingTools from './tools/lighting.js'
 import * as PostProcessingTools from './tools/postprocessing.js'
@@ -11,6 +12,8 @@ import EditorControls from './modules/controls/editor.js'
 import MapControls from './modules/controls/map.js'
 import InfiniteGridHelper from './modules/helpers/infinitegrid.js'
 import FXAAShader from './modules/shaders/fxaa.js'
+import TerrainCamera from './modules/camera/terrain.js'
+import UnrealBloomPass from './modules/postprocessing/unrealbloompass.js'
 import { ShaderPass } from './modules/postprocessing/shaderpass.js'
 import { GLTFLoader } from './modules/loaders/gltf.js'
 import { Water_Flow } from './modules/water/flow.js'
@@ -23,6 +26,8 @@ import { BokehPass } from './modules/postprocessing/bokehpass.js'
 import { BokehShader, BokehDepthShader } from './modules/shaders/bokeh2.js'
 
 const Xerxes = XBase
+
+Xerxes.camera.terrain = TerrainCamera
 
 Xerxes.geometry.buffer.default.prototype.computeBoundsTree = BVH.computeBoundsTree
 Xerxes.geometry.buffer.default.prototype.disposeBoundsTree = BVH.disposeBoundsTree
@@ -39,12 +44,21 @@ Xerxes.tools.camera = {
     create: {
         depth: CameraTools.createDepthCamera,
         flat: CameraTools.createFlatCamera,
+        terrain: CameraTools.createTerrainCamera,
     },
+}
+
+Xerxes.tools.controls = {
+    build: ControlTools.buildControls,
 }
 
 Xerxes.tools.dom = {
     body: {
         stylize: DOMTools.stylizeBody,
+    },
+
+    set: {
+        filter: DOMTools.setFilter,
     },
 }
 
@@ -61,6 +75,7 @@ Xerxes.objects.reflector = Reflector
 Xerxes.pass.bokeh = BokehPass
 Xerxes.pass.render = RenderPass
 Xerxes.pass.shader = ShaderPass
+Xerxes.pass.unrealbloom = UnrealBloomPass       
 
 Xerxes.shaders.bokeh2 = {
     default: BokehShader,
@@ -111,5 +126,7 @@ Xerxes.tools.lighting = {
 }
 
 Xerxes.log.write( 'Engine is ready for use.' )
+
+window.xerxes = Xerxes
 
 export default Xerxes

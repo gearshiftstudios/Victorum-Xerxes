@@ -1,0 +1,33 @@
+ui {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-image: url( ../../public/assets/images/ui.svg );
+    background-size: 100% 100%;
+    image-rendering: pixelated;
+
+    pointer-events: none;
+}
+
+ui#dev {
+    animation: ui-dev-slide-in 0.15s forwards;
+}
+
+@keyframes ui-dev-slide-in {
+    from {
+        margin-left: -500px;
+    } to {
+        margin-left: 0px;
+    }
+}
+@keyframes ui-dev-slide-out {
+    from {
+        margin-left: 0px;
+    } to {
+        margin-left: -500px;
+    }
+}

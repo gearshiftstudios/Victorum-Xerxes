@@ -47,7 +47,7 @@ class Water_LowPoly {
         this.geometry = new XBase.geometry.buffer[ this.params.options.geometry ]( ...geometryParams ) // new XBase.geometry.buffer.plane( width, height, widthDetail, heightDetail )
         this.initialized = false
         
-        this.material = new XBase.mat.mesh[ this.params.options.shiny ? 'phong' : 'standard' ]( {
+        this.material = new XBase.mat.mesh.phong( {
             color: this.params.options.color,
             flatShading: this.params.options.flatShading,
             opacity: this.params.options.opacity,

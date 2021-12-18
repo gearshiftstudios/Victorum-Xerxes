@@ -88,7 +88,7 @@ onmessage = e => {
                         chunkVertices[ ixcf ].nonIndexed[ points[ 0 ][ 1 ] ].position[ 0 ] +
                         chunkVertices[ ixcf ].nonIndexed[ points[ 0 ][ 2 ] ].position[ 0 ] +
                         chunkVertices[ ixcf ].nonIndexed[ points[ 0 ][ 3 ] ].position[ 0 ]
-                    ) / 4,
+                    ) / 4 + 0.25,
                     -(
                         chunkVertices[ ixcf ].nonIndexed[ points[ 0 ][ 0 ] ].position[ 1 ] +
                         chunkVertices[ ixcf ].nonIndexed[ points[ 0 ][ 1 ] ].position[ 1 ] +

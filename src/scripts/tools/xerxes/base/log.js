@@ -23,6 +23,27 @@ class Logger {
                     write( 'Input JavaScript code was run.' )
                 }
 
+                if (
+                    value.charAt( 0 ) == '/' &&
+                    value.charAt( 1 ) == 'x' &&
+                    value.charAt( 2 ) == ' ' 
+                ) {
+                    let input = value.split( '/x ' )[ 1 ]
+                    input = input.split( ' ' )
+
+                    let props = new Array( ...input )
+                    props.pop()
+                    props = props.join( '.' )
+
+                    
+
+                    if ( input[ input.length - 1 ].includes( ',' ) ) {
+                        eval( `xerxes.${ props }(${ input[ input.length - 1 ] })` )
+                    } else eval( `console.log( xerxes.${ props }[ '${ input[ input.length - 1 ] }' ] )` )
+
+                    write( 'Input JavaScript code was run.' )
+                }
+
                 this.querySelector( 'input' ).value = ''
             }
         
@@ -60,6 +81,7 @@ class Logger {
                     ${ message }`
 
                 document.body.querySelector( 'terminal' ).querySelector( 'dialogue' ).appendChild( line )
+                document.body.querySelector( 'terminal' ).querySelector( 'dialogue' ).scrollTop = document.body.querySelector( 'terminal' ).querySelector( 'dialogue' ).scrollHeight
     
                 resolve()
             } catch {
@@ -103,6 +125,20 @@ class Logger {
             }
         } )
     }
+
+    resolve ( res ) {
+        return {
+            error: message => {
+                this.error( message ).then( () => res() )
+            },
+            warn: message => {
+                this.warn( message ).then( () => res() )
+            },
+            write: message => {
+                this.write( message ).then( () => res() )
+            },
+        }
+    }
 }
 
 function output ( type, message = 'Message logged' ) {
@@ -136,6 +172,7 @@ function output ( type, message = 'Message logged' ) {
                     ${ message }`
 
                 document.body.querySelector( 'terminal' ).querySelector( 'dialogue' ).appendChild( line )
+                document.body.querySelector( 'terminal' ).querySelector( 'dialogue' ).scrollTop = document.body.querySelector( 'terminal' ).querySelector( 'dialogue' ).scrollHeight
 
             resolve()
         } catch {
@@ -180,4 +217,23 @@ function write ( message = 'Message logged' ) {
     } )
 }
 
-export { error, Logger, Logger as logger, output, warn, write }
+/**
+ * 
+ * @param { * } res The <resolve> argument in your Promise
+ */
+
+function resolve ( res ) {
+    return {
+        error: message => {
+            error( message ).then( () => res() )
+        },
+        warn: message => {
+            warn( message ).then( () => res() )
+        },
+        write: message => {
+            write( message ).then( () => res() )
+        },
+    }
+}
+
+export { error, Logger, Logger as logger, output, resolve, warn, write }

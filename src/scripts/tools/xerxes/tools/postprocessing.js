@@ -1,4 +1,6 @@
+import * as XBase from '../base/base.js'
 import { Bokeh } from './postprocessing/bokeh.js'
+import UnrealBloomPass from '../modules/postprocessing/unrealbloompass.js'
 
 function buildPostProcessing ( options = {} ) {
     return new Promise( ( resolve, reject ) => {
@@ -12,6 +14,8 @@ function buildPostProcessing ( options = {} ) {
                             case 'bokeh':
                                 list.bokeh = new Bokeh( ...options[ p ] )
                                 break
+                            case 'unrealbloom':
+                                list.unrealbloom = new UnrealBloomPass( ...options[ p ] )
                         }
                     } else {
                         reject()

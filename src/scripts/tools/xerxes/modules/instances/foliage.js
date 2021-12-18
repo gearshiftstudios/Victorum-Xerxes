@@ -57,8 +57,6 @@ class InstancedFoliage {
         
         for ( const o in instanceOptions ) this.params.instance[ o ] = instanceOptions[ o ]
 
-        console.log( this.params.instance )
-
         /* if the foliage is Xerxes map-based, parse it up */ 
 
         if ( this.params.isMapBased == true ) {
@@ -114,9 +112,6 @@ class InstancedFoliage {
     addToTiles ( mapGroup, treeTiles, options = this.params.instance ) {
         return new Promise( ( resolve, reject ) => {
                 this.activateMeshes( treeTiles.length ).then( () => {
-                    console.log( this.canopy )
-                    console.log( this.trunk )
-
                     options = {
                         maxOffsetX: options.maxOffsetX ? options.maxOffsetX : Defaults.instance.maxOffsetX,
                         maxOffsetY: options.maxOffsetY ? options.maxOffsetY : Defaults.instance.maxOffsetY,
@@ -135,8 +130,6 @@ class InstancedFoliage {
                         canopyColors: options.canopyColors ? options.canopyColors : Defaults.instance.canopyColors,
                         trunkColors: options.trunkColors ? options.trunkColors : Defaults.instance.trunkColors,
                     }
-
-                    console.log( options )
     
                     treeTiles.forEach( ( t, ix ) => {
                         const randomScale = XBase.util.math.random.number.between( options.minScale, options.maxScale )
@@ -156,7 +149,7 @@ class InstancedFoliage {
                         Dummy.scale.set( randomScale, randomScale, randomScale )
     
                         Dummy.updateMatrix()
-                        Dummy.castShadow = true
+                        // Dummy.castShadow = true
     
                         this.canopy.setMatrixAt( ix, Dummy.matrix )
                         this.canopy.setColorAt( ix, new XBase.color( ArrayTools.getRandom( options.canopyColors ) ) )

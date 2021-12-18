@@ -2,7 +2,7 @@ import * as XBase from '../../base/base.js'
 
 import { GLTFLoader } from '../../modules/loaders/gltf.js'
 
-import { Entity, EntityStore } from '../entity/entity.js'
+import { Model } from '../../modules/entities/model.js'
 import { noise } from '../../libs/perlin.js'
 import { calcMaxHeight, calcMinHeight, Face, Vertex } from './geometry.js'
 import { getRandom } from '../array.js'
@@ -136,7 +136,7 @@ class ChunkMap {
                 preset: 0,
             },
             elev: {
-                max: 13,
+                max: 8,
                 water: 0.1,
             },
             size: {
@@ -446,7 +446,8 @@ class ChunkMap {
                 .then( () => this.separateChunkTilesByBiome() )
                 .then( () => this.generateChunkTreeInstances() )
                 .then( () => this.generateWater( camera ) )
-                .then( () => this.generateRandomBuildings() )
+                // .then( () => this.generateRandomBuildings() )
+                .then( () => this.generateFog() )
                 .then( () => resolve() )
         } )
     }
@@ -725,7 +726,7 @@ class ChunkMap {
     
                     // if ( e <= seaLevel ) e = 0
     
-                    // e -= seaLevel
+                    e -= seaLevel
 
                     if ( mask !== 'great lakes' ) {
                         // if ( e <= 0 ) e = 0
@@ -1245,8 +1246,6 @@ class ChunkMap {
 
             var endTime = performance.now()
 
-            console.log( endTime - startTime )
-
             resolve()
         } )
     }
@@ -1345,9 +1344,9 @@ class ChunkMap {
                         }
                     }
                         
-                    if ( min == this.group.elev.min && max == this.group.elev.min ) {
-                        f.terrainColor = 0xb8a763
-                    }
+                    // if ( min == this.group.elev.min && max == this.group.elev.min ) {
+                    //     f.terrainColor = 0xb8a763
+                    // }
 
                     if ( max > 11 ) {
                         f.isCliff = true
@@ -1355,35 +1354,37 @@ class ChunkMap {
                         f.terrainColor = 0x8a9488
                     }
 
-                    if ( min < 0.7 ) {
+                    const beachMin = 0.1
+
+                    if ( min < beachMin ) {
                         if ( f.biome == 0 ) {
                             f.terrainColor = colors[ 0 ]
                                 .clone()
-                                .lerp( new XBase.color( 0x5c5c5c ).clone(), this.scaleOut( min, -0.3, 0.7, 0, 1));
+                                .lerp( new XBase.color( getRandom( this.colors.biomes.sand ) ).clone(), this.scaleOut( min, -0.3, beachMin, 0, 1));
                         } else {
                             f.terrainColor = colors[ 0 ]
                                 .clone()
-                                .lerp( new XBase.color( getRandom( this.colors.biomes.sand ) ).clone(), this.scaleOut( min, -0.3, 0.7, 0, 1));
+                                .lerp( new XBase.color( getRandom( this.colors.biomes.sand ) ).clone(), this.scaleOut( min, -0.3, beachMin, 0, 1));
                         }
-                    } else if ( min < 1.25 ) {
+                    } else if ( min < 0.5 ) {
                         if ( f.biome == 0 ) {
-                            f.terrainColor = new XBase.color( 0x5c5c5c )
+                            f.terrainColor = new XBase.color( getRandom( this.colors.biomes.sand ) )
                                 .clone()
-                                .lerp( f.biomeColor.clone(), this.scaleOut( min, 0.75, 1.25, 0, 1));
+                                .lerp( f.biomeColor.clone(), this.scaleOut( min, beachMin, 0.5, 0, 1));
                         } else {
-                            f.terrainColor = colors[1]
+                            f.terrainColor = new XBase.color( getRandom( this.colors.biomes.sand ) )
                                 .clone()
-                                .lerp( f.biomeColor.clone(), this.scaleOut( min, 0.75, 1.25, 0, 1));
+                                .lerp( f.biomeColor.clone(), this.scaleOut( min, beachMin, 0.5, 0, 1));
                         }
                     } else if ( min < 6.0 ) {
                         if ( f.biome == 0 ) {
                             f.terrainColor = f.biomeColor
                                 .clone()
-                                .lerp( new XBase.color( 0xc4c4c4 ).clone(), this.scaleOut( min, 1.25, 6.0, 0, 1));
+                                .lerp( new XBase.color( 0xc4c4c4 ).clone(), this.scaleOut( min, 0.5, 6.0, 0, 1));
                         } else {
                             f.terrainColor = f.biomeColor
                                 .clone()
-                                .lerp(colors[3].clone(), this.scaleOut( min, 1.25, 6.0, 0, 1));
+                                .lerp(colors[3].clone(), this.scaleOut( min, 0.5, 6.0, 0, 1));
                         }
                     } else if ( min < 11.0 ) {
                         if ( f.biome == 0 ) {
@@ -1512,77 +1513,63 @@ class ChunkMap {
         } )
     }
     
-    generateFog ( geoParams ) {
+    generateFog () {
         return new Promise( resolve => {
-            this.group.fogMask = []
+            // this.group.fogMask = []
 
-            const area = geoParams.width * geoParams.height
+            // const area = this.settings.size.width * this.settings.size.height
 
-            for ( let i = 0; i < area; i++ ) this.group.fogMask.push( 1 )
-
-            if ( area == 250000 ) {
-                this.group.fogMask[ 249498 ] = 0
-                this.group.fogMask[ 249497 ] = 0
-                this.group.fogMask[ 249496 ] = 0
-
-                this.group.fogMask[ 248998 ] = 0
-                this.group.fogMask[ 248997 ] = 0
-                this.group.fogMask[ 248996 ] = 0
-
-                this.group.fogMask[ 248498 ] = 0
-                this.group.fogMask[ 248497 ] = 0
-                this.group.fogMask[ 248496 ] = 0
-            }
+            // for ( let i = 0; i < area; i++ ) this.group.fogMask.push( 1 )
          
-            //create a typed array to hold texture data
-            const data = new Uint8Array( this.group.fogMask.length )
+            // //create a typed array to hold texture data
+            // const data = new Uint8Array( this.group.fogMask.length )
 
-            //copy mask into the typed array
-            data.set( this.group.fogMask.map( v => v * 255 ) )
+            // //copy mask into the typed array
+            // data.set( this.group.fogMask.map( v => v * 255 ) )
 
-            //create the texture
-            const texture = new XBase.texture.data( 
-                data, 
-                geoParams.width, 
-                geoParams.height, 
-                XBase.luminanceFormat, 
-                XBase.unassigned.byteType 
-            )
+            // //create the texture
+            // const texture = new XBase.texture.data( 
+            //     data, 
+            //     this.settings.size.width, 
+            //     this.settings.size.height, 
+            //     XBase.luminanceFormat, 
+            //     XBase.unassigned.byteType 
+            // )
          
-            texture.flipY = true
-            texture.wrapS = XBase.clampToEdgeWrapping
-            texture.wrapT = XBase.clampToEdgeWrapping
+            // texture.flipY = true
+            // texture.wrapS = XBase.clampToEdgeWrapping
+            // texture.wrapT = XBase.clampToEdgeWrapping
 
-            //it's likely that our texture will not have "power of two" size, meaning that mipmaps are not going to be supported on WebGL 1.0, so let's turn them off
-            texture.generateMipmaps = false
+            // //it's likely that our texture will not have "power of two" size, meaning that mipmaps are not going to be supported on WebGL 1.0, so let's turn them off
+            // texture.generateMipmaps = false
          
-            texture.magFilter = XBase.linearFilter
-            texture.minFilter = XBase.linearFilter
+            // texture.magFilter = XBase.linearFilter
+            // texture.minFilter = XBase.linearFilter
          
-            texture.needsUpdate = true
+            // texture.needsUpdate = true
          
-            const geometry = new XBase.geometry.buffer.plane( 
-                geoParams.width, 
-                geoParams.height, 
-                geoParams.width, 
-                geoParams.height 
-            )
+            // const geometry = new XBase.geometry.buffer.plane( 
+            //     this.settings.size.width, 
+            //     this.settings.size.height, 
+            //     this.settings.size.width, 
+            //     this.settings.size.height 
+            // )
 
-            const material = new XBase.mat.mesh.basic( {
-                color: 0x000000, 
-                alphaMap: texture, 
-                transparent: true, 
-                opacity:0.9
-            } )
+            // const material = new XBase.mat.mesh.basic( {
+            //     color: 0x000000, 
+            //     alphaMap: texture, 
+            //     transparent: true, 
+            //     opacity:0.9
+            // } )
         
-            /* construct a mesh */
-            this.group.fog = new XBase.mesh.default( geometry, material )
+            // /* construct a mesh */
+            // this.group.fog = new XBase.mesh.default( geometry, material )
 
-            /* add the mesh to the group */
-            this.group.add( this.group.fog )
+            // /* add the mesh to the group */
+            // this.group.add( this.group.fog )
         
-            this.group.fog.rotation.x = XBase.util.math.degToRad( -90 )
-            this.group.fog.position.y = 0.3
+            // this.group.fog.rotation.x = XBase.util.math.degToRad( -90 )
+            // this.group.fog.position.y = 11
 
             resolve()
         } )
@@ -1619,19 +1606,19 @@ class ChunkMap {
 
     getDefaultTreeSettings ( minScale, maxScale ) {
         return {
-            maxOffsetX: 0.25,
+            maxOffsetX: 0,
             maxOffsetY: -0.05,
-            maxOffsetZ: 0.25,
-            maxRotX: 5,
+            maxOffsetZ: 0,
+            maxRotX: 0,
             maxRotY: 360,
-            maxRotZ: 5,
+            maxRotZ: 0,
             maxScale: maxScale ? maxScale : 1,
-            minOffsetX: -0.25,
+            minOffsetX: 0,
             minOffsetY: -0.2,
-            minOffsetZ: -0.25,
-            minRotX: -5,
-            minRotY: -360,
-            minRotZ: -5,
+            minOffsetZ: 0,
+            minRotX: 0,
+            minRotY: 0,
+            minRotZ: 0,
             minScale: minScale ? minScale : 1,
         }
     }
@@ -1639,12 +1626,12 @@ class ChunkMap {
     loadTrees ( storageObject ) {
         return new Promise( ( resolve, reject ) => {
             setLoaderPath( './public/assets/models/trees/' )
-                .then( () => storeInstancedFoliage( 'temp-decid.average', true, storageObject, this.getDefaultTreeSettings( 0.25, 0.3 ) ) )
-                .then( () => storeInstancedFoliage( 'temp-decid.moderate', true, storageObject, this.getDefaultTreeSettings( 0.25, 0.3 ) ) )
-                .then( () => storeInstancedFoliage( 'temp-decid.tall', true, storageObject, this.getDefaultTreeSettings( 0.25, 0.3 ) ) )
-                .then( () => storeInstancedFoliage( 'taiga.tall', true, storageObject, this.getDefaultTreeSettings( 0.174, 0.176 ) ) )
-                .then( () => storeInstancedFoliage( 'tundra.tall', true, storageObject, this.getDefaultTreeSettings( 0.174, 0.176 ) ) )
-                .then( () => storeInstancedFoliage( 'sub-trop-desert.tall', true, storageObject, this.getDefaultTreeSettings( 0.00274, 0.00276 ) ) )
+                // .then( () => storeInstancedFoliage( 'temp-decid.average', true, storageObject, this.getDefaultTreeSettings( 0.25, 0.3 ) ) )
+                // .then( () => storeInstancedFoliage( 'temp-decid.moderate', true, storageObject, this.getDefaultTreeSettings( 0.25, 0.3 ) ) )
+                .then( () => storeInstancedFoliage( 'temp-decid.standard', true, storageObject, this.getDefaultTreeSettings( 0.25,  0.25 ) ) )
+                // .then( () => storeInstancedFoliage( 'taiga.tall', true, storageObject, this.getDefaultTreeSettings( 0.174, 0.176 ) ) )
+                // .then( () => storeInstancedFoliage( 'tundra.tall', true, storageObject, this.getDefaultTreeSettings( 0.174, 0.176 ) ) )
+                // .then( () => storeInstancedFoliage( 'sub-trop-desert.tall', true, storageObject, this.getDefaultTreeSettings( 0.00274, 0.00276 ) ) )
                 .then( () => resolve() )
         } )
     }
@@ -1660,7 +1647,7 @@ class ChunkMap {
                     if ( ( Math.random() > 0.97 ) == true ) {
                         const Loader = new GLTFLoader()
                         Loader.load( './public/assets/models/buildings/mill.gltf', model => {
-                            const entity = new Entity( model, this.group, 'spin' )
+                            const entity = new Model( model, this.group, 'spin' )
 
                             entity.model.scene.position.set(
                                 t.center[ 0 ] + 0.25,
