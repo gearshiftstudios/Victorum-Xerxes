@@ -9,7 +9,6 @@ terminal {
   border-left: none;
   border-radius: 0 10px 0 0;
   color: white;
-  display: none;
   pointer-events: auto;
 }
 

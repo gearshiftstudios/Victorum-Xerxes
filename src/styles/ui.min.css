@@ -4,19 +4,37 @@ ui {
   top: 0;
   width: 100vw;
   height: 100vh;
-  background-image: url(../../public/assets/images/ui.svg);
-  background-size: 100% 100%;
-  -ms-interpolation-mode: nearest-neighbor;
-      image-rendering: -webkit-optimize-contrast;
-      image-rendering: -moz-crisp-edges;
-      image-rendering: -o-pixelated;
-      image-rendering: pixelated;
   pointer-events: none;
 }
 
+[lt], [rt], [lb], [rb] {
+  position: absolute;
+}
+
+[lt] {
+  left: 0;
+  top: 0;
+}
+
+[rt] {
+  right: 0;
+  top: 0;
+}
+
+[lb] {
+  left: 0;
+  bottom: 0;
+}
+
+[rb] {
+  right: 0;
+  bottom: 0;
+}
+
+/* dev */
 ui#dev {
-  -webkit-animation: ui-dev-slide-in 0.15s forwards;
-          animation: ui-dev-slide-in 0.15s forwards;
+  -webkit-animation: ui-dev-slide-out 1s forwards;
+          animation: ui-dev-slide-out 1s forwards;
 }
 
 @-webkit-keyframes ui-dev-slide-in {
@@ -53,5 +71,162 @@ ui#dev {
   to {
     margin-left: -500px;
   }
+}
+
+/* game */
+[wood] {
+  background-color: #424242;
+  background-image: url(../../public/assets/images/interface/wood.plank.doubled.jpg);
+  background-size: 240px 84px;
+}
+
+resource {
+  position: absolute;
+  left: 0;
+  top: -50px;
+  width: 175px;
+  height: 80px;
+}
+
+resource amount {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 50px 0 0 45px;
+  width: 130px;
+  height: 32px;
+  border: ridge 5px #ae8724;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  -webkit-box-shadow: 0 0 10px black, inset 0 0 25px black;
+          box-shadow: 0 0 10px black, inset 0 0 25px black;
+  color: white;
+  font-family: 'EB Garamond';
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  padding: 3px 0px 0px 0px;
+  text-align: center;
+  text-shadow: 0 0 10px black;
+  vertical-align: middle;
+}
+
+resource icon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 45px 0 0 0;
+  width: 40px;
+  height: 45px;
+  border: ridge 5px #ae8724;
+  border-radius: 0 0 10px 10px;
+  border-top: none;
+  -webkit-box-shadow: 0 0 10px black, inset 0 0 50px black;
+          box-shadow: 0 0 10px black, inset 0 0 50px black;
+}
+
+resource icon file {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 40px;
+  height: 40px;
+  background-image: none;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 40px 40px;
+}
+
+resource income {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 90px 0 0 60px;
+  width: 100px;
+  height: 25px;
+  background-color: #212121;
+  border: solid 2px #424242;
+  border-radius: 0 0 10px 10px;
+  border-top: none;
+  -webkit-box-shadow: 0 0 10px black, inset 0 0 20px black;
+          box-shadow: 0 0 10px black, inset 0 0 20px black;
+  color: white;
+  font-family: 'EB Garamond';
+  font-size: 17px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-align: center;
+  text-shadow: 0 0 10px black;
+  vertical-align: middle;
+}
+
+section#main banner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 120px;
+  height: 120px;
+  border: ridge 5px #ae8724;
+  border-radius: 0 0 120px 0;
+  border-left: none;
+  border-top: none;
+  -webkit-box-shadow: 0 0 10px black, inset 0 0 20px black;
+          box-shadow: 0 0 10px black, inset 0 0 20px black;
+}
+
+section#main bridge {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 0px 0 0 0px;
+  width: 150px;
+  height: 35px;
+  border: ridge 5px #ae8724;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  -webkit-box-shadow: 0 0 10px black, inset 0 0 25px black;
+          box-shadow: 0 0 10px black, inset 0 0 25px black;
+}
+
+section#main resource#silver {
+  left: 150px;
+}
+
+section#main resource#silver icon file {
+  background-image: url(../../public/assets/images/resources/silver.80.png);
+}
+
+section#main resource#timber {
+  left: 325px;
+}
+
+section#main resource#timber icon file {
+  background-image: url(../../public/assets/images/resources/timber.80.png);
+}
+
+section#main resource#metal {
+  left: 500px;
+}
+
+section#main resource#metal icon file {
+  background-image: url(../../public/assets/images/resources/metal.80.png);
+}
+
+section#main resource#coal {
+  left: 675px;
+}
+
+section#main resource#coal icon file {
+  background-image: url(../../public/assets/images/resources/coal.80.png);
+}
+
+section#main resource#elevium {
+  left: 850px;
+}
+
+section#main resource#elevium icon file {
+  background-image: url(../../public/assets/images/resources/elevium.80.png);
 }
 /*# sourceMappingURL=ui.min.css.map */

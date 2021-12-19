@@ -22,7 +22,6 @@ class RendererDataDisplay {
             border-top: none;
             border-radius: 0 0 10px 0;
             color: white;
-            display: none;
             font-family: 'Montserrat';
             font-size: 12px;
             padding: 5px 10px 5px 10px;

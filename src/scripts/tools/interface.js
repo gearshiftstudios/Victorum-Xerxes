@@ -1,9 +1,66 @@
 import VLog from '../log.js'
 
 const ui = {
-    dev: {
-        open: true,
+    created: {
+        attr: 0,
+        ui: 0,
     },
+    dev: {
+        open: false,
+    },
+}
+
+/**
+ * 
+ * @param {*} element 
+ * @param {*} name
+ */ 
+function attr ( element = document.body, name = String( ui.created.attr ) ) {
+    return {
+        add: () => { return new Promise( resolve => {
+            element.setAttribute( name, '' )
+
+            resolve()
+        } ) },
+        get: () => { return new Promise( resolve => {
+            element.getAttribute( name )
+
+            resolve()
+        } ) },
+
+        /**
+         * 
+         * @param { String } value 
+         */
+        set: ( value = '' ) => { return new Promise( resolve => {
+            element.setAttribute( name, value )
+
+            resolve()
+        } ) }
+    }
+}
+
+/**
+ * 
+ * @param { Element } parent The element that it will be appended to.
+ * @param { String } id The ID of it for organization.
+ * @param { String } position Where to lock it. Options are 'lt', 'rt', 'lb', 'rb'.
+ */
+
+function createUISection ( parent = document.body, id = String( ui.created.ui ) , position = 'lt', width = 0, content = `` ) {
+    return new Promise( resolve => {
+        ui.created.ui++
+
+        const section = document.createElement( 'section' )
+        section.id = id
+        section.innerHTML += content
+        section.style.width = `${ width }px`
+        attr( position ).add()
+
+        parent.appendChild( section )
+
+        resolve()
+    } )
 }
 
 function getUI ( id ) {
@@ -55,4 +112,4 @@ function show ( element ) {
     } )
 }
 
-export { getUI, hide, setAnimation, show, ui }
+export { attr, createUISection, getUI, hide, setAnimation, show, ui }

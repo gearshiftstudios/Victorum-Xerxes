@@ -127,7 +127,7 @@ class App {
 
     async generateCamera () {
         this.camera = await Xerxes.tools.camera.create.terrain(
-            this.scene, 5, 45, this.container.offsetWidth / this.container.offsetHeight, 0.1, 2000, {
+            this.scene, 5, 25, this.container.offsetWidth / this.container.offsetHeight, 0.1, 2000, {
                 position: new Array( 20, 20, 20 )
             }
         )
@@ -199,6 +199,10 @@ class App {
         } )
 
         await this.camera.setTerrain( this.terrain.group )
+    }
+
+    async generateUI () {
+        
     }
 }
 
