@@ -327,4 +327,4 @@ Refractor.RefractorShader = {
 
 };
 
-export { Refractor };
+export default Refractor

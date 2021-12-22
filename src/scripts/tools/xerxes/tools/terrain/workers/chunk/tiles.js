@@ -1,7 +1,7 @@
 onmessage = e => {
     const classes = {
         tile: class {
-            constructor ( heightArray, face1, face2, vertices, center, biome, isCliff, isCoast, chunkIndex, chunkTileIndex, row, column ) {
+            constructor ( heightArray, face1, face2, vertices, center, biome, isCliff, isCoast, isUnderwater, chunkIndex, chunkTileIndex, row, column ) {
                 this.adjacencies = new Array()
                 this.a = face1
                 this.b = face2
@@ -16,6 +16,7 @@ onmessage = e => {
                 this.heightArray = heightArray
                 this.isCliff = isCliff
                 this.isCoast = isCoast
+                this.isUnderwater = isUnderwater
                 this.row = row
                 this.settlementId = null
                 this.vertices = vertices
@@ -55,7 +56,8 @@ onmessage = e => {
                         },
                         f.isCliff,
                         f.isCoast,
-                        f.isCrust
+                        f.isCrust,
+                        f.isUnderwater
                     ], 
                     b: [
                         ix + 1,
@@ -66,15 +68,17 @@ onmessage = e => {
                         },
                         cf[ ix + 1 ].isCliff,
                         cf[ ix + 1 ].isCoast,
-                        cf[ ix + 1 ].isCrust
+                        cf[ ix + 1 ].isCrust,
+                        cf[ ix + 1 ].isUnderwater
                     ] 
                 }
     
-                let cliff = false, coast = false, crust = false
+                let cliff = false, coast = false, crust = false, underwater = false
     
                 if ( face.a[ 2 ] || face.b[ 2 ] ) cliff = true
                 if ( face.a[ 3 ] || face.b[ 3 ] ) coast = true
                 if ( face.a[ 4 ] || face.b[ 4 ] ) crust = true
+                if ( face.a[ 5 ] || face.b[ 5 ] ) underwater = true
     
                 for ( const p in face.a[ 1 ] ) points[ 0 ].push( face.a[ 1 ][ p ] )
     
@@ -127,7 +131,8 @@ onmessage = e => {
                         points[ 1 ], 
                         f.biome,
                         cliff,
-                        coast
+                        coast,
+                        underwater
                     ) )
 
                     tile++
@@ -174,6 +179,7 @@ onmessage = e => {
                     t.biome,
                     t.isCliff,
                     t.isCoast,
+                    t.isUnderwater,
                     ix,
                     tix,
                     iRow + row,

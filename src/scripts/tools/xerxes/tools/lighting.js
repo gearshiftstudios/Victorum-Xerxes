@@ -6,7 +6,7 @@ function buildBasicLighting ( scene ) {
             try {
                 /* add hemisphere light */ 
 
-                const hemi = new XBase.light.hemisphere( 0xffeeb1, 0x080820, 0.75 )
+                const hemi = new XBase.light.hemisphere( 0xffeeb1, 0x080820, 1 )
                 hemi.addTo( scene )
 
                 /* add sun light */ 

@@ -1090,6 +1090,16 @@ const storage = {
      ceilPowerOfTwo: ceilPowerOfTwo,
      floorPowerOfTwo: floorPowerOfTwo,
      setQuaternionFromProperEuler: setQuaternionFromProperEuler,
+     characters: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
+     randomId: function ( length = 11 ) {
+        let result = ''
+
+        for ( var i = 0; i < length; i++ ) {
+            result += this.characters.charAt( Math.floor( Math.random() * this.characters.length ) )
+        }
+
+        return result
+    },  
      random: {
         number: {
             between: ( min, max, floor ) => {

@@ -75,9 +75,7 @@ ui#dev {
 
 /* game */
 [wood] {
-  background-color: #424242;
-  background-image: url(../../public/assets/images/interface/wood.plank.doubled.jpg);
-  background-size: 240px 84px;
+  background-color: #0B263D;
 }
 
 resource {
@@ -95,12 +93,12 @@ resource amount {
   margin: 50px 0 0 45px;
   width: 130px;
   height: 32px;
-  border: ridge 5px #ae8724;
+  border: ridge 5px #c09a39;
   border-left: none;
   border-right: none;
   border-top: none;
-  -webkit-box-shadow: 0 0 10px black, inset 0 0 25px black;
-          box-shadow: 0 0 10px black, inset 0 0 25px black;
+  -webkit-box-shadow: 0 0 10px black, inset 0 0 25px #155d8f;
+          box-shadow: 0 0 10px black, inset 0 0 25px #155d8f;
   color: white;
   font-family: 'EB Garamond';
   font-size: 20px;
@@ -119,11 +117,11 @@ resource icon {
   margin: 45px 0 0 0;
   width: 40px;
   height: 45px;
-  border: ridge 5px #ae8724;
+  border: ridge 5px #c09a39;
   border-radius: 0 0 10px 10px;
   border-top: none;
-  -webkit-box-shadow: 0 0 10px black, inset 0 0 50px black;
-          box-shadow: 0 0 10px black, inset 0 0 50px black;
+  -webkit-box-shadow: 0 0 10px black, inset 0 0 10px black;
+          box-shadow: 0 0 10px black, inset 0 0 10px black;
 }
 
 resource icon file {
@@ -167,12 +165,12 @@ section#main banner {
   top: 0;
   width: 120px;
   height: 120px;
-  border: ridge 5px #ae8724;
+  border: ridge 5px #c09a39;
   border-radius: 0 0 120px 0;
   border-left: none;
   border-top: none;
-  -webkit-box-shadow: 0 0 10px black, inset 0 0 20px black;
-          box-shadow: 0 0 10px black, inset 0 0 20px black;
+  -webkit-box-shadow: 0 0 10px black, inset 0 0 25px #155d8f;
+          box-shadow: 0 0 10px black, inset 0 0 25px #155d8f;
 }
 
 section#main bridge {
@@ -182,12 +180,12 @@ section#main bridge {
   margin: 0px 0 0 0px;
   width: 150px;
   height: 35px;
-  border: ridge 5px #ae8724;
+  border: ridge 5px #c09a39;
   border-left: none;
   border-right: none;
   border-top: none;
-  -webkit-box-shadow: 0 0 10px black, inset 0 0 25px black;
-          box-shadow: 0 0 10px black, inset 0 0 25px black;
+  -webkit-box-shadow: 0 0 10px black, inset 0 0 25px #155d8f;
+          box-shadow: 0 0 10px black, inset 0 0 25px #155d8f;
 }
 
 section#main resource#silver {

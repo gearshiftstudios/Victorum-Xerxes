@@ -263,4 +263,4 @@ Reflector.ReflectorShader = {
 		}`
 };
 
-export { Reflector };
+export default Reflector

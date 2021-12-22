@@ -11,6 +11,8 @@ class App {
         this.delta = 0
         this.elapsedTime = 0
 
+        this.renderers = {}
+
         /* constructor methods */ 
 
         this.render = () => {
@@ -53,17 +55,17 @@ class App {
             this.camera.aspect = this.container.offsetWidth / this.container.offsetHeight
             this.camera.updateProjectionMatrix()
 
-            this.renderer.setPixelRatio( window.devicePixelRatio )
-            this.renderer.setSize( this.container.offsetWidth, this.container.offsetHeight )
+            this.renderers.webgl.setPixelRatio( window.devicePixelRatio )
+            this.renderers.webgl.setSize( this.container.offsetWidth, this.container.offsetHeight )
 
             if ( this.postprocessing && this.postprocessing.bokeh ) this.postprocessing.bokeh.resize()
 
-            if ( this.composer ) {
-                if ( this.composer.fxaa ) {
-                    this.composer.fxaa.material.uniforms[ 'resolution' ].value.x = 1 / ( window.innerWidth * this.renderer.getPixelRatio() )
-		            this.composer.fxaa.material.uniforms[ 'resolution' ].value.y = 1 / ( window.innerHeight * this.renderer.getPixelRatio() )
-                }
-            }
+            // if ( this.composer ) {
+            //     if ( this.composer.fxaa ) {
+            //         this.composer.fxaa.material.uniforms[ 'resolution' ].value.x = 1 / ( window.innerWidth * this.renderer.getPixelRatio() )
+		    //         this.composer.fxaa.material.uniforms[ 'resolution' ].value.y = 1 / ( window.innerHeight * this.renderer.getPixelRatio() )
+            //     }
+            // }
         }
     }
 
@@ -75,31 +77,15 @@ class App {
 
     async update ( delta, elapsedTime ) {
         if ( 
-            this.renderer && 
+            this.renderers.webgl && 
             this.postprocessing && this.postprocessing.bokeh &&
             this.postprocessing.bokeh.waterMatDepth &&
             this.composer
         ) {
+            this.renderers.webgl.render( this.scene, this.camera )
+            this.renderers.webgl.display.update( this.renderers.webgl )
 
-			/* render scene into texture */
-
-            // this.renderer.setRenderTarget( this.postprocessing.bokeh.rtTextureColor )
-            // this.renderer.clear()
-            // this.renderer.render( this.scene, this.camera )
-
-			/* render depth into texture */
-
-            // this.scene.overrideMaterial = this.postprocessing.bokeh.waterMatDepth
-            // this.renderer.setRenderTarget( this.postprocessing.bokeh.rtTextureDepth )
-            // this.renderer.clear()
-            this.renderer.render( this.scene, this.camera )
-            this.renderer.display.update( this.renderer )
-            // this.scene.overrideMaterial = null
-
-			/* render bokeh composite */
-
-            // this.renderer.setRenderTarget( null )
-			// this.composer.render()
+            this.renderers.dom.render( this.scene, this.camera )
         }
 
         if ( this.terrain ) {
@@ -127,14 +113,14 @@ class App {
 
     async generateCamera () {
         this.camera = await Xerxes.tools.camera.create.terrain(
-            this.scene, 5, 25, this.container.offsetWidth / this.container.offsetHeight, 0.1, 2000, {
+            this.scene, 5, 35, this.container.offsetWidth / this.container.offsetHeight, 0.1, 2000, {
                 position: new Array( 20, 20, 20 )
             }
         )
     }
 
     async generateControls () {
-        this.controls = await Xerxes.tools.controls.build( 'map', this.camera, this.renderer.domElement, {
+        this.controls = await Xerxes.tools.controls.build( 'map', this.camera, this.renderers.dom.domElement, {
             screenSpacePanning: false,
             enableDamping: true,
             maxDistance: 39
@@ -160,12 +146,12 @@ class App {
 
         /* effect composer */
         
-        this.composer = new Xerxes.composer.effect( this.renderer )
+        this.composer = new Xerxes.composer.effect( this.renderers.webgl )
         this.composer.renderpass = new Xerxes.pass.render( this.postprocessing.bokeh.scene, this.postprocessing.bokeh.camera )
         this.composer.fxaa = new Xerxes.pass.shader( Xerxes.shaders.fxaa )
 
-        this.composer.fxaa.material.uniforms[ 'resolution' ].value.x = 1 / ( window.innerWidth * this.renderer.getPixelRatio() )
-		this.composer.fxaa.material.uniforms[ 'resolution' ].value.y = 1 / ( window.innerHeight * this.renderer.getPixelRatio() )
+        this.composer.fxaa.material.uniforms[ 'resolution' ].value.x = 1 / ( window.innerWidth * this.renderers.webgl.getPixelRatio() )
+		this.composer.fxaa.material.uniforms[ 'resolution' ].value.y = 1 / ( window.innerHeight * this.renderers.webgl.getPixelRatio() )
 
         this.composer.addPass( this.composer.renderpass )
         this.composer.addPass( this.postprocessing.unrealbloom )
@@ -173,7 +159,7 @@ class App {
     }
 
     async generateRenderer () {
-        this.renderer = await Xerxes.tools.renderer.webgl.build( 
+        this.renderers.webgl = await Xerxes.tools.renderer.webgl.build( 
             document.body,
             {
                 alpha: true,
@@ -182,9 +168,11 @@ class App {
             }
         )
             
-        this.renderer.autoClear = false
-        this.renderer.domElement.style.pointerEvents = 'auto'
-        this.renderer.display = await Xerxes.tools.renderer.webgl.create.display( InterfaceTools.getUI( 'dev' ) )
+        this.renderers.webgl.autoClear = false
+        this.renderers.webgl.domElement.style.pointerEvents = 'auto'
+        this.renderers.webgl.display = await Xerxes.tools.renderer.webgl.create.display( InterfaceTools.getUI( 'dev' ) )
+
+        this.renderers.dom = await Xerxes.tools.renderer.css2d.build( document.body )
     }
 
     async generateScene () {

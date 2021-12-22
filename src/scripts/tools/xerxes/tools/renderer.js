@@ -1,5 +1,6 @@
 import * as XBase from '../base/base.js'
 import Rejections from '../base/rejections.js'
+import CSS2DRenderer from '../modules/renderers/css2d.js'
 
 class RendererDataDisplay {
     constructor ( parentElement = document.body, type = 'webgl' ) {
@@ -53,6 +54,27 @@ class RendererDataDisplay {
     }
 }
 
+function buildCSS2DRenderer ( container, options = {} ) {
+    return new Promise( ( resolve, reject ) => {
+        if ( container ) {
+            try {
+                const renderer = new CSS2DRenderer()
+                renderer.setSize( container.offsetWidth, container.offsetHeight )
+				renderer.domElement.style.position = 'absolute'
+				renderer.domElement.style.top = '0px'
+
+                for ( const o in options ) renderer[ o ] = options[ o ]
+
+                container.appendChild( renderer.domElement )
+
+                resolve( renderer )
+            } catch {
+                reject( Rejections.renderer.build )
+            }
+        } else reject( Rejections.DOM.container.notVerified )
+    } )
+}
+
 function buildWebGLRenderer ( container, rendererOptions = {}, options = {} ) {
     return new Promise( ( resolve, reject ) => {
         if ( container ) {
@@ -60,8 +82,8 @@ function buildWebGLRenderer ( container, rendererOptions = {}, options = {} ) {
                 const renderer = new XBase.renderer.webgl( rendererOptions )
                 renderer.setPixelRatio( window.devicePixelRatio )
                 renderer.setSize( container.offsetWidth, container.offsetHeight )
-                renderer.outputEncoding = XBase.encoding.srgb
-                renderer.gammaFactor = 3
+                // renderer.outputEncoding = XBase.encoding.srgb
+                renderer.gammaFactor = 2
                 renderer.shadowMap.enabled = true
                 renderer.setClearColor( 0x000000, 0 )
 
@@ -144,6 +166,7 @@ function createRendererDataDisplay ( parentElement = document.body, type = 'webg
 /* exports */
 
 export {
+    buildCSS2DRenderer,
     buildWebGLRenderer,
     createColorTarget,
     createDepthTarget,

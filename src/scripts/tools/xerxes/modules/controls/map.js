@@ -155,7 +155,7 @@ const MapControls = function ( object, domElement, orientRing ) {
     this.keys = { LEFT: 37, UP: 38, RIGHT: 39, BOTTOM: 40 }
 
     /* Mouse buttons */
-    this.mouseButtons = { LEFT: XBase.mouse.ROTATE, MIDDLE: XBase.mouse.DOLLY, RIGHT: XBase.mouse.RINGPAN }
+    this.mouseButtons = { LEFT: null, MIDDLE: XBase.mouse.DOLLY, RIGHT: XBase.mouse.RINGPAN }
 
     /* Touch fingers */
     this.touches = { ONE: XBase.touch.ROTATE, TWO: XBase.touch.DOLLY_PAN }

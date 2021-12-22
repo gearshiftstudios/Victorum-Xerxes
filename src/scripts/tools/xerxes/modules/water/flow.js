@@ -11,9 +11,9 @@ import {
 	UniformsUtils,
 	Vector2,
 	Vector4
-} from '../../base/base.js';
-import { Reflector } from '../objects/reflector.js';
-import { Refractor } from '../objects/refractor.js';
+} from '../../base/base.js'
+import Reflector from '../objects/reflector.js'
+import Refractor from '../objects/refractor.js'
 
 /**
  * References:

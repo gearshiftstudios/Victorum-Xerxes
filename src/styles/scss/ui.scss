@@ -1,4 +1,6 @@
-$color-brass: rgb(174, 135, 36);
+$color-brass: rgb(192, 154, 57);
+$box-shadow-proper: 0 0 10px black, inset 0 0 25px #155d8f;
+$box-shadow-proper-exterior: 0 0 10px black;
 
 ui {
     position: absolute;
@@ -42,9 +44,9 @@ ui#dev {
 /* game */
 
 [ wood ] {
-    background-color: #424242;
-    background-image:  url( ../../public/assets/images/interface/wood.plank.doubled.jpg );
-    background-size: 240px 84px;
+    background-color: #0B263D;
+    // background-image:  url( ../../public/assets/images/interface/wood.plank.doubled.jpg );
+    // background-size: 240px 84px;
 }
 
 resource {
@@ -69,7 +71,7 @@ resource {
         border-left: none;
         border-right: none;
         border-top: none;
-        box-shadow: 0 0 10px black, inset 0 0 25px black;
+        box-shadow: $box-shadow-proper; // #124C74;
         color: white;
         font-family: 'EB Garamond';
         font-size: 20px;
@@ -94,7 +96,7 @@ resource {
         border: ridge 5px $color-brass;
         border-radius: 0 0 10px 10px;
         border-top: none;
-        box-shadow: 0 0 10px black, inset 0 0 50px black;
+        box-shadow: $box-shadow-proper-exterior, inset 0 0 10px black;
 
         & file {
             position: absolute;
@@ -151,7 +153,7 @@ section {
             border-radius: 0 0 120px 0;
             border-left: none;
             border-top: none;
-            box-shadow: 0 0 10px black, inset 0 0 20px black;
+            box-shadow: $box-shadow-proper;
         }
 
         & bridge {
@@ -168,7 +170,7 @@ section {
             border-left: none;
             border-right: none;
             border-top: none;
-            box-shadow: 0 0 10px black, inset 0 0 25px black;
+            box-shadow: $box-shadow-proper;
         }
 
         & resource {

@@ -121,8 +121,8 @@ class ChunkMap {
             [ 'tundra', 0.99, 0.99 ],
             [ 'taiga', 0.75, 0.97 ],
             [ 'temp-grass', 0.99, 0.99 ],
-            [ 'temp-decid', 0.75, 0.97 ],
-            [ 'temp-conif', 0.75, 0.97 ],
+            [ 'temp-decid', 0.75, 0.75 ],
+            [ 'temp-conif', 0.75, 0.75 ],
             [ 'sub-trop-desert', 0.98, 0.98 ],
             [ 'savanna', 0.90, 0.90 ],
             [ 'trop-seasonal', 0.5, 0.5 ],
@@ -130,18 +130,18 @@ class ChunkMap {
         )
 
         this.settings = {
-            mult: 2.5,
+            mult: 1.5,
 
             biomes: {
                 preset: 0,
             },
             elev: {
-                max: 8,
+                max: 4,
                 water: 0.1,
             },
             size: {
-                width: 200,
-                height: 200,
+                width: 50,
+                height: 50,
             },
             chunk: {
                 amount: [ 0, 0 ],
@@ -446,7 +446,7 @@ class ChunkMap {
                 .then( () => this.separateChunkTilesByBiome() )
                 .then( () => this.generateChunkTreeInstances() )
                 .then( () => this.generateWater( camera ) )
-                // .then( () => this.generateRandomBuildings() )
+                .then( () => this.generateRandomBuildings() )
                 .then( () => this.generateFog() )
                 .then( () => resolve() )
         } )
@@ -1266,7 +1266,7 @@ class ChunkMap {
                 let tileNum = 0
 
                 var colors = [
-                    new XBase.color( 0x7a6f43 ),
+                    new XBase.color( 0xc9b25d ),
                     new XBase.color( 0xb8a763 ),
                     new XBase.color( 0x4e7825 ),
                     new XBase.color( 0x99a132 ),
@@ -1279,6 +1279,7 @@ class ChunkMap {
                     f.isCliff = false
                     f.isCoast = false
                     f.isCrust = false
+                    f.isUnderwater = false
             
                     const min = calcMinHeight( c, f )
                     const max = calcMaxHeight( c, f )
@@ -1343,10 +1344,7 @@ class ChunkMap {
                             f.terrainColor = getRandom( this.colors.biomes.sand ) // shore
                         }
                     }
-                        
-                    // if ( min == this.group.elev.min && max == this.group.elev.min ) {
-                    //     f.terrainColor = 0xb8a763
-                    // }
+                
 
                     if ( max > 11 ) {
                         f.isCliff = true
@@ -1354,7 +1352,7 @@ class ChunkMap {
                         f.terrainColor = 0x8a9488
                     }
 
-                    const beachMin = 0.1
+                    const beachMin = 0
 
                     if ( min < beachMin ) {
                         if ( f.biome == 0 ) {
@@ -1406,6 +1404,12 @@ class ChunkMap {
                         f.isCliff = true
 
                         f.terrainColor = new XBase.color( getRandom( this.colors.biomes.mountain ) )
+                    }
+
+                    if ( min <= this.group.elev.min ) {
+                        f.terrainColor = new XBase.color( 0xc9b25d )
+
+                        f.isUnderwater = true
                     }
 
                     if ( min < this.group.elev.min - 1 ) {
@@ -1505,7 +1509,7 @@ class ChunkMap {
 
     generateWater ( camera ) {
         return new Promise ( resolve => {
-                this.water = new Water_LowPoly( this.group, camera, {}, 200, 200, 200, 200 )
+                this.water = new Water_LowPoly( this.group, camera, {}, this.settings.size.width, this.settings.size.height, this.settings.size.width, this.settings.size.height )
         
                 this.water.mesh.rotation.x = Math.PI * - 0.5;
     
@@ -1612,14 +1616,14 @@ class ChunkMap {
             maxRotX: 0,
             maxRotY: 360,
             maxRotZ: 0,
-            maxScale: maxScale ? maxScale : 1,
+            maxScale: maxScale ? maxScale : 0.25,
             minOffsetX: 0,
             minOffsetY: -0.2,
             minOffsetZ: 0,
             minRotX: 0,
             minRotY: 0,
             minRotZ: 0,
-            minScale: minScale ? minScale : 1,
+            minScale: minScale ? minScale : 0.25,
         }
     }
 
@@ -1628,7 +1632,9 @@ class ChunkMap {
             setLoaderPath( './public/assets/models/trees/' )
                 // .then( () => storeInstancedFoliage( 'temp-decid.average', true, storageObject, this.getDefaultTreeSettings( 0.25, 0.3 ) ) )
                 // .then( () => storeInstancedFoliage( 'temp-decid.moderate', true, storageObject, this.getDefaultTreeSettings( 0.25, 0.3 ) ) )
-                .then( () => storeInstancedFoliage( 'temp-decid.standard', true, storageObject, this.getDefaultTreeSettings( 0.25,  0.25 ) ) )
+                // .then( () => storeInstancedFoliage( 'taiga.standard', true, storageObject, this.getDefaultTreeSettings( 0.025,  0.025 ) ) )
+                .then( () => storeInstancedFoliage( 'temp-decid.standard', true, storageObject, this.getDefaultTreeSettings( 0.25,  0.25 ) ) 
+                .then( () => storeInstancedFoliage( 'temp-conif.standard', true, storageObject, this.getDefaultTreeSettings( 0.25,  0.25 ) ) ) )
                 // .then( () => storeInstancedFoliage( 'taiga.tall', true, storageObject, this.getDefaultTreeSettings( 0.174, 0.176 ) ) )
                 // .then( () => storeInstancedFoliage( 'tundra.tall', true, storageObject, this.getDefaultTreeSettings( 0.174, 0.176 ) ) )
                 // .then( () => storeInstancedFoliage( 'sub-trop-desert.tall', true, storageObject, this.getDefaultTreeSettings( 0.00274, 0.00276 ) ) )
@@ -1643,14 +1649,22 @@ class ChunkMap {
             }
 
             this.group.allTiles.forEach( t => {
-                if ( !t.hasTree && !t.isCrust && !t.isCoast ) {
+                if ( !t.hasTree && !t.isUnderwater && !t.isCliff ) {
                     if ( ( Math.random() > 0.97 ) == true ) {
                         const Loader = new GLTFLoader()
                         Loader.load( './public/assets/models/buildings/mill.gltf', model => {
                             const entity = new Model( model, this.group, 'spin' )
 
+                            entity.model.scene.rotateY( -1.57 )
+
+                            entity.model.scene.traverse( child => {
+                                if ( child.isMesh ) {
+                                    child.castShadow = true
+                                }
+                            } )
+
                             entity.model.scene.position.set(
-                                t.center[ 0 ] + 0.25,
+                                t.center[ 0 ],
                                 t.maxHeight,
                                 t.center[ 1 ]
                             )

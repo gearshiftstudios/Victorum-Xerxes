@@ -146,7 +146,7 @@ class InstancedFoliage {
                             XBase.util.math.degToRad( XBase.util.math.random.number.between( options.minRotZ, options.maxRotZ ) )
                         )
     
-                        Dummy.scale.set( randomScale, randomScale, randomScale )
+                        Dummy.scale.setScalar( randomScale, randomScale, randomScale )
     
                         Dummy.updateMatrix()
                         // Dummy.castShadow = true
