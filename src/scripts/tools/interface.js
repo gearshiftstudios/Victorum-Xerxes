@@ -12,8 +12,8 @@ const ui = {
 
 /**
  * 
- * @param {*} element 
- * @param {*} name
+ * @param { Element } element Element in which this attribute will access
+ * @param { String } name The name of the attribute
  */ 
 function attr ( element = document.body, name = String( ui.created.attr ) ) {
     return {
